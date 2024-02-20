@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-02-20T21:27:46.588Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="4VLsW10TSa8zVbIV9eG8" version="23.1.5" type="github">
+<mxfile host="app.diagrams.net" modified="2024-02-20T21:30:12.691Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="UJvXUn7dd1HCABbd9ch9" version="23.1.5" type="github">
   <diagram name="Página-1" id="-0zXEEPwNyO20Thf_ezR">
-    <mxGraphModel dx="518" dy="277" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1072" dy="573" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="500" pageHeight="500" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -8,28 +8,28 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="tJmSdNVWoumQcEvU2406-1" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;size=0.5;" vertex="1" parent="1">
-          <mxGeometry x="310" y="190" width="20" height="100" as="geometry" />
+          <mxGeometry x="230" y="150" width="20" height="100" as="geometry" />
         </mxCell>
         <mxCell id="tJmSdNVWoumQcEvU2406-2" value="Estructura de datos" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=left;verticalLabelPosition=middle;align=right;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="200" y="240" width="20" height="120" as="geometry" />
+          <mxGeometry x="120" y="200" width="20" height="120" as="geometry" />
         </mxCell>
         <mxCell id="tJmSdNVWoumQcEvU2406-7" value="Dinámicas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tJmSdNVWoumQcEvU2406-6" target="tJmSdNVWoumQcEvU2406-2">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="tJmSdNVWoumQcEvU2406-6" value="Pilas&lt;br&gt;Colas&lt;br&gt;Listas&lt;br&gt;Árboles&lt;br&gt;Gráfos" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;" vertex="1" parent="1">
-          <mxGeometry x="310" y="300" width="20" height="70" as="geometry" />
+          <mxGeometry x="230" y="260" width="20" height="70" as="geometry" />
         </mxCell>
         <mxCell id="tJmSdNVWoumQcEvU2406-11" value="Compuestas o&lt;br&gt;Estructuradas" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tJmSdNVWoumQcEvU2406-10" target="tJmSdNVWoumQcEvU2406-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="tJmSdNVWoumQcEvU2406-10" value="Strings&lt;br&gt;Arreglos&lt;br&gt;Conjuntos&lt;br&gt;Registros&lt;br&gt;Archivos" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;size=0.3;" vertex="1" parent="1">
-          <mxGeometry x="414" y="240" width="20" height="70" as="geometry" />
+          <mxGeometry x="334" y="200" width="20" height="70" as="geometry" />
         </mxCell>
         <mxCell id="tJmSdNVWoumQcEvU2406-19" value="Simples o&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;Fundamentales" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="tJmSdNVWoumQcEvU2406-18" target="tJmSdNVWoumQcEvU2406-1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="tJmSdNVWoumQcEvU2406-18" value="Boolean&lt;br&gt;Char&lt;br&gt;Integer&lt;br&gt;Real" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;labelPosition=right;verticalLabelPosition=middle;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
-          <mxGeometry x="414" y="160" width="20" height="60" as="geometry" />
+          <mxGeometry x="334" y="120" width="20" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
