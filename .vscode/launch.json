@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/nero5/Documents/UACH/3er semestre/Data--structures--c-",
-      "program": "c:/Users/nero5/Documents/UACH/3er semestre/Data--structures--c-/build/Debug/outDebug",
+      "cwd": "c:/Users/nero5/Documents/UACH/3er semestre/Data--structures--c-/first week",
+      "program": "c:/Users/nero5/Documents/UACH/3er semestre/Data--structures--c-/first week/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
