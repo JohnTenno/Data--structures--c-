@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/john/Documents/uach/Data--structures--c-/first week/onlineClass",
-      "program": "/home/john/Documents/uach/Data--structures--c-/first week/onlineClass/build/Debug/outDebug",
+      "cwd": "/home/john/Documents/uach/Data--structures--c-/first week",
+      "program": "/home/john/Documents/uach/Data--structures--c-/first week/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
