@@ -80,6 +80,13 @@ arbol *insertar(arbol *raiz, arbol *hoja, int num)
 }
 
 int busqueda(arbol *hoja, int num)
+
+/* Aquí tienes una explicación de la función:
+- Utiliza un bucle while para recorrer el árbol comenzando desde el nodo raíz (hoja).
+- Si el número objetivo (num) se encuentra en el nodo actual (hoja->dato), la función devuelve un valor verdadero (VERDADERO).
+- Si el número objetivo no se encuentra en el nodo actual, la función compara el número objetivo con el valor en el nodo actual para determinar si debe moverse al nodo hijo izquierdo (hoja->izq) o al nodo hijo derecho (hoja->der).
+- La función continúa este proceso hasta que encuentre el número objetivo o llegue a un nodo hoja (hoja es NULL).
+- Si el número objetivo no se encuentra en el árbol, la función devuelve un valor falso (FALSO). */
 {
   while (hoja)
   {
@@ -208,6 +215,8 @@ arbol *podar(arbol *hoja)
 
 void preorden(arbol *hoja)
 {
+  // Método preorden:
+  // Este método realiza un recorrido en preorden de un árbol binario. Comienza en la raíz del árbol y luego visita primero el nodo actual, después el subárbol izquierdo y finalmente el subárbol derecho. Si el nodo actual es nulo, la función termina. Imprime el valor almacenado en el nodo actual (hoja->dato) y luego realiza un recorrido preorden en el subárbol izquierdo y en el subárbol derecho de manera recursiva.
 
   if (!hoja)
     return;
@@ -219,9 +228,9 @@ void preorden(arbol *hoja)
 
 void inorden(arbol *hoja)
 {
+  // Método inorden : El método inorden realiza un recorrido inorden en un árbol binario.Comienza en la raíz del árbol y visita primero el subárbol izquierdo, luego el nodo actual y finalmente el subárbol derecho.Si el nodo actual es nulo, la función termina.Realiza un recorrido inorden en el subárbol izquierdo, imprime el valor del nodo actual y luego realiza un recorrido inorden en el subárbol derecho de manera recursiva.if (!hoja) return;
   if (!hoja)
     return;
-
   inorden(hoja->izq);
   printf("%d ", hoja->dato);
   inorden(hoja->der);
@@ -229,6 +238,7 @@ void inorden(arbol *hoja)
 
 void posorden(arbol *hoja)
 {
+  // Método posorden : Este método realiza un recorrido en posorden de un árbol binario.Comienza en la raíz del árbol y visita primero los subárboles izquierdo y derecho, y finalmente el nodo actual.Si el nodo actual es nulo, la función termina.Realiza un recorrido posorden en el subárbol izquierdo, en el subárbol derecho y finalmente imprime el valor del nodo actual de manera recursiva.b if (!hoja) return;
   if (!hoja)
     return;
 
@@ -240,11 +250,13 @@ void posorden(arbol *hoja)
 /*Menus del Arbol*/
 void menu_recorridos(void)
 {
+  /*Llamando al metodo menu_recorridos
+  se accede al menu para luego limpiar el buffer con fflush
+  optenemos la opcio con _op*/
   char _op = '1';
 
   while (_op != '4')
   {
-
     printf("1. PreOrden.");
     printf("\n2. InOrden.");
     printf("\n3. PosOrden.");
@@ -273,6 +285,8 @@ void menu_recorridos(void)
 
 void menu_busquedas(void)
 {
+  /*se accede al menu de busquedas. para preguntar al usuario el numero a buscar
+  se llama al metodo busqueda donde le pasamos la raiz y el valor a buscar*/
   int val;
 
   printf("\n\nNumero: ");
