@@ -1,462 +1,465 @@
-#include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
-#include <ctype.h>
+#include <stdio.h>
+#include <queue>
+#include <unordered_set>
+#include <stack>
 
-typedef struct Arbol
+using namespace std;
+
+struct nodo
 {
-  int dato;
-  struct Arbol *izq;
-  struct Arbol *der;
-} arbol;
-arbol *raiz;
-enum
-{
-  FALSO = 0,
-  VERDADERO
+  char nombre; // nombre del vertice o nodo
+  struct nodo *sgte;
+  struct arista *ady; // puntero hacia la primera arista del nodo
 };
 
-/*PROTOTIPOS*/
-void inicializar(void);
-int vacio(arbol *hoja);
-int eshoja(arbol *hoja);
-arbol *insertar(arbol *raiz, arbol *hoja, int num);
-int busqueda(arbol *hoja, int num);
-int alturax(arbol *hoja, int num);
-int alturafull(arbol *hoja, int *altura);
-void auxaltura(arbol *hoja, int *altura, int cont);
-int nodos(arbol *hoja);
-void auxnodos(arbol *hoja, int *cont);
-arbol *borrarx(arbol *hoja, int num);
-arbol *podar(arbol *hoja);
-void preorden(arbol *hoja);
-void inorden(arbol *hoja);
-void posorden(arbol *hoja);
-void menu_recorridos(void);
-void menu_busquedas(void);
-void menu_alturas(void);
-void menu_nodos(void);
-void menu_podar(void);
-
-void inicializar(void)
+struct arista
 {
-  raiz = NULL;
-}
+  struct nodo *destino; // puntero al nodo de llegada
+  struct arista *sgte;
+};
 
-int vacio(arbol *hoja)
-{
-  if (!hoja)
-    return VERDADERO;
-  return FALSO;
-}
+typedef struct nodo *Tnodo;     // Tipo Nodo
+typedef struct arista *Tarista; // Tipo Arista
 
-int eshoja(arbol *hoja)
-{
-  if (hoja->izq == NULL && hoja->der == NULL)
-    return VERDADERO;
-  return FALSO;
-}
+Tnodo p = NULL; // puntero cabeza
 
-arbol *insertar(arbol *raiz, arbol *hoja, int num)
-{
-  if (!hoja)
-  {
-    hoja = (arbol *)malloc(sizeof(arbol));
-    hoja->dato = num;
-    hoja->izq = NULL;
-    hoja->der = NULL;
-    if (!raiz)
-      return hoja;
-    else if (num < raiz->dato)
-      raiz->izq = hoja;
-    else
-      raiz->der = hoja;
-    return hoja;
-  }
-  else if (num < hoja->dato)
-    insertar(hoja, hoja->izq, num);
-  else
-    insertar(hoja, hoja->der, num);
-  return raiz;
-}
-
-int busqueda(arbol *hoja, int num)
-
-/* Aquí tienes una explicación de la función:
-- Utiliza un bucle while para recorrer el árbol comenzando desde el nodo raíz (hoja).
-- Si el número objetivo (num) se encuentra en el nodo actual (hoja->dato), la función devuelve un valor verdadero (VERDADERO).
-- Si el número objetivo no se encuentra en el nodo actual, la función compara el número objetivo con el valor en el nodo actual para determinar si debe moverse al nodo hijo izquierdo (hoja->izq) o al nodo hijo derecho (hoja->der).
-- La función continúa este proceso hasta que encuentre el número objetivo o llegue a un nodo hoja (hoja es NULL).
-- Si el número objetivo no se encuentra en el árbol, la función devuelve un valor falso (FALSO). */
-{
-  while (hoja)
-  {
-    if (num == hoja->dato)
-      return VERDADERO;
-    else
-    {
-      if (num < hoja->dato)
-        hoja = hoja->izq;
-      else
-        hoja = hoja->der;
-    }
-  }
-  return FALSO;
-}
-
-int alturax(arbol *hoja, int num)
-{
-  int altura = 1;
-
-  while (hoja)
-  {
-    if (num == hoja->dato)
-      return altura;
-    else
-    {
-      altura++;
-      if (num < hoja->dato)
-        hoja = hoja->izq;
-      else
-        hoja = hoja->der;
-    }
-  }
-  return FALSO;
-}
-
-int alturafull(arbol *hoja, int *altura)
-{
-  auxaltura(hoja, altura, 1);
-  return *altura;
-}
-
-void auxaltura(arbol *hoja, int *altura, int cont)
-{
-  if (!hoja)
-    return;
-
-  auxaltura(hoja->izq, altura, cont + 1);
-  auxaltura(hoja->der, altura, cont + 1);
-  if ((eshoja(hoja) && cont) > *altura)
-    *altura = cont;
-}
-
-int nodos(arbol *hoja)
-{
-  int nodos = 0;
-  auxnodos(hoja, &nodos);
-  return nodos;
-}
-
-void auxnodos(arbol *hoja, int *cont)
-{
-  if (!hoja)
-    return;
-
-  (*cont)++;
-  auxnodos(hoja->izq, cont);
-  auxnodos(hoja->der, cont);
-}
-
-arbol *borrarx(arbol *hoja, int num)
-{
-  if (hoja->dato == num)
-  {
-    arbol *p, *p2;
-
-    if (vacio(hoja))
-    {
-      free(hoja);
-      hoja = NULL;
-      return hoja;
-    }
-    else if (hoja->izq == NULL)
-    {
-      p = hoja->der;
-      free(hoja);
-      return p;
-    }
-    else if (hoja->der == NULL)
-    {
-      p = hoja->izq;
-      free(hoja);
-      return p;
-    }
-    else
-    {
-      p = hoja->der;
-      p2 = hoja->der;
-      while (p->izq)
-        p = p->izq;
-      p->izq = hoja->izq;
-      free(hoja);
-      return p2;
-    }
-  }
-  else if (num < hoja->dato)
-    hoja->izq = borrarx(hoja->izq, num);
-  else
-    hoja->der = borrarx(hoja->der, num);
-  return hoja;
-}
-
-arbol *podar(arbol *hoja)
-{
-  if (!hoja)
-    return hoja;
-
-  podar(hoja->izq);
-  podar(hoja->der);
-  free(hoja);
-  hoja = NULL;
-  return hoja;
-}
-
-/*Recorridos*/
-
-void preorden(arbol *hoja)
-{
-  // Método preorden:
-  // Este método realiza un recorrido en preorden de un árbol binario. Comienza en la raíz del árbol y luego visita primero el nodo actual, después el subárbol izquierdo y finalmente el subárbol derecho. Si el nodo actual es nulo, la función termina. Imprime el valor almacenado en el nodo actual (hoja->dato) y luego realiza un recorrido preorden en el subárbol izquierdo y en el subárbol derecho de manera recursiva.
-
-  if (!hoja)
-    return;
-
-  printf("%d ", hoja->dato);
-  preorden(hoja->izq);
-  preorden(hoja->der);
-}
-
-void inorden(arbol *hoja)
-{
-  // Método inorden : El método inorden realiza un recorrido inorden en un árbol binario.Comienza en la raíz del árbol y visita primero el subárbol izquierdo, luego el nodo actual y finalmente el subárbol derecho.Si el nodo actual es nulo, la función termina.Realiza un recorrido inorden en el subárbol izquierdo, imprime el valor del nodo actual y luego realiza un recorrido inorden en el subárbol derecho de manera recursiva.if (!hoja) return;
-  if (!hoja)
-    return;
-  inorden(hoja->izq);
-  printf("%d ", hoja->dato);
-  inorden(hoja->der);
-}
-
-void posorden(arbol *hoja)
-{
-  // Método posorden : Este método realiza un recorrido en posorden de un árbol binario.Comienza en la raíz del árbol y visita primero los subárboles izquierdo y derecho, y finalmente el nodo actual.Si el nodo actual es nulo, la función termina.Realiza un recorrido posorden en el subárbol izquierdo, en el subárbol derecho y finalmente imprime el valor del nodo actual de manera recursiva.b if (!hoja) return;
-  if (!hoja)
-    return;
-
-  posorden(hoja->izq);
-  posorden(hoja->der);
-  printf("%d ", hoja->dato);
-}
-
-/*Menus del Arbol*/
-void menu_recorridos(void)
-{
-  /*Llamando al metodo menu_recorridos
-  se accede al menu para luego limpiar el buffer con fflush
-  optenemos la opcio con _op*/
-  char _op = '1';
-
-  while (_op != '4')
-  {
-    printf("1. PreOrden.");
-    printf("\n2. InOrden.");
-    printf("\n3. PosOrden.");
-    printf("\n4. Salir.");
-    printf("\n\n:: ");
-    fflush(stdin);
-    scanf("%c", &_op);
-    switch (_op)
-    {
-    case '1':
-      preorden(raiz);
-
-      break;
-    case '2':
-      inorden(raiz);
-
-      break;
-    case '3':
-      posorden(raiz);
-
-      break;
-    }
-    system("pause");
-  }
-}
-
-void menu_busquedas(void)
-{
-  /*se accede al menu de busquedas. para preguntar al usuario el numero a buscar
-  se llama al metodo busqueda donde le pasamos la raiz y el valor a buscar*/
-  int val;
-
-  printf("\n\nNumero: ");
-  scanf("%d", &val);
-  if (busqueda(raiz, val))
-    printf("\n\nEncontrado..");
-  else
-    printf("\n\nError, No se encuentra.");
-  system("pause");
-}
-
-void menu_alturas(void)
-{
-  char _op = '1';
-  int val, altura;
-
-  while (_op != '3')
-  {
-    system("cls");
-    printf("1. Altura de Un Nodo - Profundidad . ");
-    printf("\n2. Altura de Todo el Arbol.");
-    printf("\n3. Salir.");
-    printf("\n\n:: ");
-    fflush(stdin);
-    scanf("%c", &_op);
-
-    switch (_op)
-    {
-    case '1':
-      printf("\n\nNumero: ");
-      scanf("%d", &val);
-      altura = alturax(raiz, val);
-      if (!altura)
-        printf("\n\nImposible, numero inexistente.");
-      else
-        printf("\n\nLa Altura es: %i", altura);
-
-      break;
-    case '2':
-      altura = 0;
-      printf("\n\nLa Altura del Arbol es: %i", alturafull(raiz, &altura));
-
-      break;
-    default:
-      printf("Error\n");
-      break;
-    }
-    system("pause");
-  }
-}
-
-void menu_nodos(void)
-{
-  printf("\n\nEl Numero de Nodos es: %i", nodos(raiz));
-  system("pause");
-}
-
-void menu_podar(void)
-{
-  char _op = '1';
-  int val;
-
-  while (_op != '3')
-  {
-
-    printf("1. Podar Un Nodos del Arbol.");
-    printf("\n2. Podar Todo el Arbol.");
-    printf("\n3. Salir.");
-    fflush(stdin);
-    scanf("%c", &_op);
-    switch (_op)
-    {
-    case '1':
-      printf("\n\nNumero: ");
-      scanf("%d", &val);
-      raiz = borrarx(raiz, val);
-      printf("\n\n.... Borrado ....");
-      break;
-    case '2':
-      raiz = podar(raiz);
-      printf("\n\nArbol Borrado por Completo.");
-
-      break;
-    }
-    system("pause");
-  }
-  return;
-}
+void menu();
+void insertar_nodo();
+void agrega_arista(Tnodo &, Tnodo &, Tarista &);
+void insertar_arista();
+void vaciar_aristas(Tnodo &);
+void eliminar_nodo();
+void eliminar_arista();
+void mostrar_grafo();
+void mostrar_aristas();
+void BFS();
+void DFS();
+void BFSUtil(Tnodo start);
+void DFSUtil(Tnodo start);
 
 int main()
 {
-  char _op = 'A';
-  int val;
+  int op; // opción del menú
 
-  inicializar();
+  system("color 0b");
 
-  while (_op != '7')
+  do
   {
-    system("cls");
-    printf("1. Insertar.");
-    printf("\n2.Recorridos.");
-    printf("\n3.Busquedas.");
-    printf("\n4.Alturas.");
-    printf("\n5.Nodos.");
-    printf("\n6.Podar.");
-    printf("\n7.Salir.");
-    printf("\n\n:: ");
-    fflush(stdin);
-    scanf("%c", &_op);
+    menu();
+    cin >> op;
 
-    switch (_op)
+    switch (op)
     {
-    case '1':
-      printf("\n\nNumero: ");
-      scanf("%d", &val);
-      if (busqueda(raiz, val))
-      {
-        printf("\n\nEste numero ya ha sido insertado.");
-
-        break;
-      }
-      raiz = insertar(raiz, raiz, val);
+    case 1:
+      insertar_nodo();
       break;
-    case '2':
-      if (vacio(raiz))
-      {
-        printf("\n\nEl Arbol Aun esta Vacio.");
-
-        break;
-      }
-      menu_recorridos();
+    case 2:
+      insertar_arista();
       break;
-    case '3':
-      if (vacio(raiz))
-      {
-
-        break;
-      }
-      menu_busquedas();
+    case 3:
+      eliminar_nodo();
       break;
-    case '4':
-      if (vacio(raiz))
-      {
-        printf("\n\nEl Arbol Aun esta Vacio.");
-
-        break;
-      }
-      menu_alturas();
+    case 4:
+      eliminar_arista();
       break;
-    case '5':
-      if (vacio(raiz))
-      {
-        printf("\n\nEl Arbol Aun esta Vacio.");
-
-        break;
-      }
-      menu_nodos();
+    case 5:
+      mostrar_grafo();
       break;
-    case '6':
-      if (vacio(raiz))
-      {
-        printf("\n\nEl Arbol Aun esta Vacio.");
+    case 6:
+      mostrar_aristas();
+      break;
+    case 7:
+      BFS();
+      break;
+    case 8:
+      DFS();
+      break;
+    case 9:
+      break;
 
-        break;
-      }
-      menu_podar();
+    default:
+      cout << "OPCION NO VALIDA...!!!" << endl;
       break;
     }
+
+    cout << endl;
     system("pause");
-  }
+    system("cls");
+
+  } while (op != 9);
 
   return 0;
+}
+
+void menu()
+{
+  cout << "\n\tREPRESENTACION DE GRAFOS DIRIGIDOS\n\n";
+  cout << " 1. INSERTAR UN NODO" << endl;
+  cout << " 2. INSERTAR UNA ARISTA" << endl;
+  cout << " 3. ELIMINAR UN NODO" << endl;
+  cout << " 4. ELIMINAR UNA ARISTA" << endl;
+  cout << " 5. MOSTRAR GRAFO" << endl;
+  cout << " 6. MOSTRAR ARISTAS DE UN NODO" << endl;
+  cout << " 7. RECORRIDO EN AMPLITUD (BFS)" << endl;
+  cout << " 8. RECORRIDO EN PROFUNDIDAD (DFS)" << endl;
+  cout << " 9. SALIR" << endl;
+
+  cout << "\n INGRESE OPCION: ";
+}
+
+void insertar_nodo()
+{
+  Tnodo t, nuevo = new struct nodo;
+  cout << "INGRESE VARIABLE: ";
+  cin >> nuevo->nombre;
+  nuevo->sgte = NULL;
+  nuevo->ady = NULL;
+
+  if (p == NULL)
+  {
+    p = nuevo;
+    cout << "PRIMER NODO...!!!" << endl;
+  }
+  else
+  {
+    t = p;
+    while (t->sgte != NULL)
+    {
+      t = t->sgte;
+    }
+    t->sgte = nuevo;
+    cout << "NODO INGRESADO...!!!" << endl;
+  }
+}
+
+void agrega_arista(Tnodo &aux, Tnodo &aux2, Tarista &nuevo)
+{
+  Tarista q;
+  if (aux->ady == NULL)
+  {
+    aux->ady = nuevo;
+    nuevo->destino = aux2;
+    cout << "PRIMERA ARISTA....!" << endl;
+  }
+  else
+  {
+    q = aux->ady;
+    while (q->sgte != NULL)
+    {
+      q = q->sgte;
+    }
+    nuevo->destino = aux2;
+    q->sgte = nuevo;
+    cout << "ARISTA AGREGADA...!!!!" << endl;
+  }
+}
+
+void insertar_arista()
+{
+  char ini, fin;
+  Tarista nuevo = new struct arista;
+  Tnodo aux, aux2;
+
+  if (p == NULL)
+  {
+    cout << "GRAFO VACIO...!!!!" << endl;
+    return;
+  }
+  nuevo->sgte = NULL;
+  cout << "INGRESE NODO DE INICIO: ";
+  cin >> ini;
+  cout << "INGRESE NODO FINAL: ";
+  cin >> fin;
+  aux = p;
+  aux2 = p;
+  while (aux2 != NULL)
+  {
+    if (aux2->nombre == fin)
+    {
+      break;
+    }
+    aux2 = aux2->sgte;
+  }
+  while (aux != NULL)
+  {
+    if (aux->nombre == ini)
+    {
+      agrega_arista(aux, aux2, nuevo);
+      return;
+    }
+    aux = aux->sgte;
+  }
+}
+
+void vaciar_aristas(Tnodo &aux)
+{
+  Tarista q, r;
+  q = aux->ady;
+  while (q->sgte != NULL)
+  {
+    r = q;
+    q = q->sgte;
+    delete (r);
+  }
+}
+
+void eliminar_nodo()
+{
+  char var;
+  Tnodo aux, ant;
+  aux = p;
+  cout << "ELIMINAR UN NODO" << endl;
+  if (p == NULL)
+  {
+    cout << "GRAFO VACIO...!!!!" << endl;
+    return;
+  }
+  cout << "INGRESE NOMBRE DE VARIABLE: ";
+  cin >> var;
+
+  while (aux != NULL)
+  {
+    if (aux->nombre == var)
+    {
+      if (aux->ady != NULL)
+        vaciar_aristas(aux);
+
+      if (aux == p)
+      {
+        p = p->sgte;
+        delete (aux);
+        cout << "NODO ELIMINADO...!!!!" << endl;
+        return;
+      }
+      else
+      {
+        ant->sgte = aux->sgte;
+        delete (aux);
+        cout << "NODO ELIMINADO...!!!!" << endl;
+        return;
+      }
+    }
+    else
+    {
+      ant = aux;
+      aux = aux->sgte;
+    }
+  }
+}
+
+void eliminar_arista()
+{
+  char ini, fin;
+  Tnodo aux, aux2;
+  Tarista q, r;
+  cout << "\n ELIMINAR ARISTA" << endl;
+  cout << "INGRESE NODO DE INICIO: ";
+  cin >> ini;
+  cout << "INGRESE NODO FINAL: ";
+  cin >> fin;
+  aux = p;
+  aux2 = p;
+  while (aux2 != NULL)
+  {
+    if (aux2->nombre == fin)
+    {
+      break;
+    }
+    else
+      aux2 = aux2->sgte;
+  }
+  while (aux != NULL)
+  {
+    if (aux->nombre == ini)
+    {
+      q = aux->ady;
+      while (q != NULL)
+      {
+        if (q->destino == aux2)
+        {
+          if (q == aux->ady)
+            aux->ady = aux->ady->sgte;
+          else
+            r->sgte = q->sgte;
+          delete (q);
+          cout << "ARISTA  " << aux->nombre << "----->" << aux2->nombre << " ELIMINADA.....!!!!" << endl;
+          return;
+        }
+        r = q;
+        q = q->sgte;
+      }
+    }
+    aux = aux->sgte;
+  }
+}
+
+void mostrar_grafo()
+{
+  Tnodo ptr;
+  Tarista ar;
+  ptr = p;
+  cout << "NODO|LISTA DE ADYACENCIA" << endl;
+
+  while (ptr != NULL)
+  {
+    cout << "   " << ptr->nombre << "|";
+    if (ptr->ady != NULL)
+    {
+      ar = ptr->ady;
+      while (ar != NULL)
+      {
+        cout << " " << ar->destino->nombre;
+        ar = ar->sgte;
+      }
+    }
+    ptr = ptr->sgte;
+    cout << endl;
+  }
+}
+
+void mostrar_aristas()
+{
+  Tnodo aux;
+  Tarista ar;
+  char var;
+  cout << "MOSTRAR ARISTAS DE NODO" << endl;
+  cout << "INGRESE NODO: ";
+  cin >> var;
+  aux = p;
+  while (aux != NULL)
+  {
+    if (aux->nombre == var)
+    {
+      if (aux->ady == NULL)
+      {
+        cout << "EL NODO NO TIENE ARISTAS...!!!!" << endl;
+        return;
+      }
+      else
+      {
+        cout << "NODO|LISTA DE ADYACENCIA" << endl;
+        cout << "   " << aux->nombre << "|";
+        ar = aux->ady;
+
+        while (ar != NULL)
+        {
+          cout << ar->destino->nombre << " ";
+          ar = ar->sgte;
+        }
+        cout << endl;
+        return;
+      }
+    }
+    aux = aux->sgte;
+  }
+}
+
+void BFS()
+{
+  char start;
+  cout << "INGRESE EL NODO INICIAL PARA BFS: ";
+  cin >> start;
+
+  Tnodo aux = p;
+  while (aux != NULL && aux->nombre != start)
+  {
+    aux = aux->sgte;
+  }
+
+  if (aux != NULL)
+  {
+    BFSUtil(aux);
+  }
+  else
+  {
+    cout << "NODO NO ENCONTRADO" << endl;
+  }
+}
+
+void BFSUtil(Tnodo start)
+{
+  if (start == NULL)
+  {
+    return;
+  }
+
+  unordered_set<char> visited;
+  queue<Tnodo> q;
+  visited.insert(start->nombre);
+  q.push(start);
+
+  while (!q.empty())
+  {
+    Tnodo current = q.front();
+    q.pop();
+    cout << current->nombre << " ";
+
+    Tarista ar = current->ady;
+    while (ar != NULL)
+    {
+      if (visited.find(ar->destino->nombre) == visited.end())
+      {
+        visited.insert(ar->destino->nombre);
+        q.push(ar->destino);
+      }
+      ar = ar->sgte;
+    }
+  }
+  cout << endl;
+}
+
+void DFS()
+{
+  char start;
+  cout << "INGRESE EL NODO INICIAL PARA DFS: ";
+  cin >> start;
+
+  Tnodo aux = p;
+  while (aux != NULL && aux->nombre != start)
+  {
+    aux = aux->sgte;
+  }
+
+  if (aux != NULL)
+  {
+    DFSUtil(aux);
+  }
+  else
+  {
+    cout << "NODO NO ENCONTRADO" << endl;
+  }
+}
+
+void DFSUtil(Tnodo start)
+{
+  if (start == NULL)
+  {
+    return;
+  }
+
+  unordered_set<char> visited;
+  stack<Tnodo> s;
+  visited.insert(start->nombre);
+  s.push(start);
+
+  while (!s.empty())
+  {
+    Tnodo current = s.top();
+    s.pop();
+    cout << current->nombre << " ";
+
+    Tarista ar = current->ady;
+    while (ar != NULL)
+    {
+      if (visited.find(ar->destino->nombre) == visited.end())
+      {
+        visited.insert(ar->destino->nombre);
+        s.push(ar->destino);
+      }
+      ar = ar->sgte;
+    }
+  }
+  cout << endl;
 }
