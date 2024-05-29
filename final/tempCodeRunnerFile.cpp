@@ -22,7 +22,7 @@ class Graph
   int V;          // Número de vertices en el grafo
   AdjList *array; // Lista de adyacencia
 
-  // Vector para almacenar los nombres de las paradas de camiontl
+  // Vector para almacenar los nombres de las paradas de autobús
   // un vector sirve para almacenar secuencias continuas de elemttos, y puede creecer y decreser dinamicamente
   vector<string> busStops;
 
@@ -36,7 +36,7 @@ public:
       array[i].head = nullptr;
   }
 
-  //  añadir el nombre de una parada de camiontl
+  //  añadir el nombre de una parada de autobús
   void addBusStop(int index, string name)
   {
     if (index >= 0 && index < V)
@@ -79,14 +79,14 @@ int main()
   int V = 5;
   Graph graph(V);
 
-  // Añadir nombres a las paradas de camiontl
+  // Añadir nombres a las paradas de autobús
   graph.addBusStop(0, "Chihuahua 2000");
   graph.addBusStop(1, "La 20");
   graph.addBusStop(2, "Riberas");
   graph.addBusStop(3, "Tec");
   graph.addBusStop(4, "Uach");
 
-  // Añadir rutas entre las paradas de camiontl
+  // Añadir rutas entre las paradas de autobús
   graph.addEdge(0, 1);
   graph.addEdge(0, 4);
   graph.addEdge(1, 2);
